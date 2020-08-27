@@ -60,3 +60,7 @@ while True:
         break
     else:
         print("I did not understand that command.")
+
+
+# hints:
+# use DFT then if stuck use BFS - using returned path for BFS to move player not during BFS
