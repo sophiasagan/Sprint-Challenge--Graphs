@@ -69,6 +69,8 @@ def bfs(explored):  # returns a path to the closest unexplored path
     return path
 
 
+
+
 while len(visited_path) < len(room_graph):
     # if it has not been visited
     if player.current_room.id not in visited_path:
@@ -87,7 +89,7 @@ while len(visited_path) < len(room_graph):
 
             for direction in visited_path[cur_room_id]:
                 # if the room id value for the direction is the same as the room id in the path
-                # AND if the player is not already at the room in the path
+                # if the player is not already at the room in the path
                 if visited_path[cur_room_id][direction] == room_id and cur_room_id != room_id:
                     # add direction
                     traversal_path.append(direction)
