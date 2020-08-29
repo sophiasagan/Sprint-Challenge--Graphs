@@ -56,19 +56,31 @@ reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 # compute all possible routes
 
 all_routes = [[
-    # top 2 lines produce lowest so far of 925
-    ['e', 'n', 'w', 's'], ['e', 'w', 's', 'n'],
-    ['w', 's', 'n', 'e'], ['n', 'w', 'e', 's'],
-    # ['n', 'e', 's', 'w'], ['n', 'e', 'w', 's'],
-    # ['n', 's', 'e', 'w'], ['n', 's', 'w', 'e'],
-    # ['n', 'w', 's', 'e'], ['e', 'n', 's', 'w'],
-    # ['e', 's', 'n', 'w'], ['e', 's', 'w', 'n'],
-    # ['s', 'n', 'e', 'w'], ['s', 'n', 'w', 'e'],
-    # ['s', 'e', 'n', 'w'], ['s', 'e', 'w', 'n'],
-    # ['s', 'w', 'n', 'e'], ['s', 'w', 'e', 'n'],
-    # ['w', 'n', 'e', 's'], ['w', 'n', 's', 'e'],
-    # ['w', 'e', 'n', 's'], ['w', 'e', 's', 'n'],
-    # ['w', 's', 'e', 'n'], ['e', 'w', 'n', 's']
+    # top 4 lines produce lowest so far of 925
+    ['e', 'n', 'w', 's'], 
+    ['e', 'w', 's', 'n'],
+    ['w', 's', 'n', 'e'], 
+    ['n', 'w', 'e', 's'],
+    # ['n', 'e', 's', 'w'], 
+    # ['n', 'e', 'w', 's'],
+    # ['n', 's', 'e', 'w'], 
+    # ['n', 's', 'w', 'e'],
+    # ['n', 'w', 's', 'e'], 
+    # ['e', 'n', 's', 'w'],
+    # ['e', 's', 'n', 'w'], 
+    # ['e', 's', 'w', 'n'],
+    # ['s', 'n', 'e', 'w'], 
+    # ['s', 'n', 'w', 'e'],
+    # ['s', 'e', 'n', 'w'], 
+    # ['s', 'e', 'w', 'n'],
+    # ['s', 'w', 'n', 'e'], 
+    # ['s', 'w', 'e', 'n'],
+    # ['w', 'n', 'e', 's'], 
+    # ['w', 'n', 's', 'e'],
+    # ['w', 'e', 'n', 's'], 
+    # ['w', 'e', 's', 'n'],
+    # ['w', 's', 'e', 'n'], 
+    # ['e', 'w', 'n', 's']
 ]]
 
 # all_routes = permutations(['n', 'e', 's', 'w'])
@@ -81,7 +93,8 @@ all_routes = [[
 def search(total_rooms=500, split_threshold=14):
 
     for route in all_routes:
-        player.current_room = world.starting_room
+        # reset variables 
+        # player.current_room = world.starting_room
         cur_path = []
         maze = dict()
 
@@ -90,6 +103,11 @@ def search(total_rooms=500, split_threshold=14):
             peak = False
             explored = False
             cur_room = player.current_room
+            dx = abs(cur_room.x)
+            dy = abs(cur_room.y)
+            
+            # dx = abs(cur_room.x - (len(maze)))
+            # dy = abs(cur_room.y - (len(maze)))
 
             if cur_room.id not in maze:
                 maze[cur_room.id] = {
@@ -102,16 +120,26 @@ def search(total_rooms=500, split_threshold=14):
                 maze[prev_room][next_room] = cur_room.id
                 maze[cur_room.id][prev_path] = prev_room
 
-
             # heuristics - https://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
-            if cur_room.x > 0 and abs(cur_room.x) >= 13 and abs(cur_room.y) >= split_threshold:
-                area = 0
-            elif cur_room.x < 0 and abs(cur_room.x) > 13 and abs(cur_room.y) < split_threshold:
-                area = 1
-            elif cur_room.y > 0 and abs(cur_room.y) <= split_threshold and abs(cur_room.x) < 11:
-                area = 2
-            elif cur_room.y < 0 and abs(cur_room.x) < 11 and abs(cur_room.y) >= split_threshold:
-                area = 3
+            if (dx) >= (split_threshold - 1) and (dy) >= split_threshold:
+                area = 0 
+            elif (dx) >= split_threshold and (dy) < split_threshold:
+                area = 1 
+            elif (dy) <= split_threshold and (dx) < (split_threshold - 2):
+                area = 2 
+            elif (dy) < (split_threshold -2) and (dx) >= split_threshold:
+                area = 3 
+
+            
+            # if dx > 0 and abs(dx) - abs(dy) > split_threshold:
+            #     area = 0
+            # elif dx < 0 and abs(dx) - abs(dy) > split_threshold:
+            #     area = 1
+            # elif dy > 0 and abs(dy) - abs(dx) > split_threshold:
+            #     area = 2
+            # elif dy < 0 and abs(dy) - abs(dx) > split_threshold:
+            #     area = 3
+            
 
             for cur_direction in route[area]:
                 if cur_direction in maze[cur_room.id] and maze[cur_room.id][cur_direction] == '?' and len(cur_room.get_room_in_direction(cur_direction).get_exits()) == 1:
