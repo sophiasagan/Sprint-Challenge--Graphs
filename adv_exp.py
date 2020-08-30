@@ -31,24 +31,7 @@ player = Player(world.starting_room)
 
 traversal_path = []
 
-compass = ['n', 'e', 's', 'w']
-
 reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
-
-# set routes
-routes = []
-
-for w in compass:
-    routes.append(w)
-
-for x in compass:
-    routes.append(x)
-
-for y in compass:
-    routes.append(y)
-
-for z in compass:
-    routes.append(z)
 
 # backtrack
 reverse = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
@@ -94,7 +77,6 @@ def search(total_rooms=500, split_threshold=14):
 
     for route in all_routes:
         # reset variables 
-        # player.current_room = world.starting_room
         cur_path = []
         maze = dict()
 
