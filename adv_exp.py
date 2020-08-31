@@ -81,8 +81,8 @@ def search(total_rooms=500, split_threshold=14):
         maze = dict()
 
         while True:
-            # peaking for looking ahead in route w/o traversing
-            peak = False
+            # peeking for looking ahead in route w/o traversing
+            peek = False
             explored = False
             cur_room = player.current_room
             dx = abs(cur_room.x)
@@ -126,11 +126,11 @@ def search(total_rooms=500, split_threshold=14):
             for cur_direction in route[area]:
                 if cur_direction in maze[cur_room.id] and maze[cur_room.id][cur_direction] == '?' and len(cur_room.get_room_in_direction(cur_direction).get_exits()) == 1:
                     next_room = cur_direction
-                    peak = True
+                    peek = True
                     explored = True
                     break
 
-            if peak == False:
+            if peek == False:
                 for cur_direction in route[area]:
                     if cur_direction in maze[cur_room.id] and maze[cur_room.id][cur_direction] == '?':
                         next_room = cur_direction

@@ -91,7 +91,7 @@ while len(explored) < len(room_graph):
                     # add direction
                     traversal_path.append(direction)
                     next_room = cur_room.get_room_in_direction(direction)
-                    # update visited key value pair
+                    # update visited dict
                     explored[cur_room.id][direction] = next_room.id
                     # if room not visited
                     if next_room.id not in explored:
