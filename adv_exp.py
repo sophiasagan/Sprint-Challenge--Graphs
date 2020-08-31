@@ -103,6 +103,7 @@ def search(total_rooms=500, split_threshold=14):
                 maze[cur_room.id][prev_path] = prev_room
 
             # heuristics - https://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+            # pulls specific route based on cur_room coordinates
             if (dx) >= (split_threshold - 1) and (dy) >= split_threshold:
                 area = 0 
             elif (dx) >= split_threshold and (dy) < split_threshold:
@@ -122,14 +123,14 @@ def search(total_rooms=500, split_threshold=14):
             # elif dy < 0 and abs(dy) - abs(dx) > split_threshold:
             #     area = 3
             
-
+            # peeking to find room with at least one exit in unexplored path based on current area
             for cur_direction in route[area]:
                 if cur_direction in maze[cur_room.id] and maze[cur_room.id][cur_direction] == '?' and len(cur_room.get_room_in_direction(cur_direction).get_exits()) == 1:
                     next_room = cur_direction
                     peek = True
                     explored = True
                     break
-
+            
             if peek == False:
                 for cur_direction in route[area]:
                     if cur_direction in maze[cur_room.id] and maze[cur_room.id][cur_direction] == '?':
